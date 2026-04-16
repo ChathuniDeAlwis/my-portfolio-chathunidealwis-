@@ -1198,16 +1198,44 @@
     nav.style.padding = window.scrollY > 50 ? '1rem 4rem' : '1.4rem 4rem';
   });
 
-  function handleSend() {
+async function handleSend() {
     const btn = document.querySelector('.btn-send');
-    btn.textContent = '✓ Message Sent!';
-    btn.style.background = '#4a90c4';
-    btn.style.color = 'white';
-    setTimeout(() => {
-      btn.textContent = 'Send Message →';
-      btn.style.background = '';
-      btn.style.color = '';
-    }, 3000);
+    const name = document.querySelectorAll('input')[0].value;
+    const email = document.querySelectorAll('input')[1].value;
+    const subject = document.querySelectorAll('input')[2].value;
+    const message = document.querySelector('textarea').value;
+
+    if (!name || !email || !message) {
+      btn.textContent = '⚠ Please fill all fields';
+      btn.style.background = '#c0392b';
+      btn.style.color = 'white';
+      setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; btn.style.color = ''; }, 3000);
+      return;
+    }
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    const res = await fetch('https://formspree.io/f/xbdqgyrv', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, subject, message })
+    });
+
+    if (res.ok) {
+      btn.textContent = '✓ Message Sent!';
+      btn.style.background = '#27ae60';
+      btn.style.color = 'white';
+      document.querySelectorAll('input').forEach(i => i.value = '');
+      document.querySelector('textarea').value = '';
+    } else {
+      btn.textContent = '✗ Failed. Try again.';
+      btn.style.background = '#c0392b';
+      btn.style.color = 'white';
+    }
+
+    btn.disabled = false;
+    setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; btn.style.color = ''; }, 3000);
   }
 </script>
 </body>
