@@ -206,6 +206,7 @@
     transform: translateY(-2px);
   }
 
+  /* ── DESKTOP HERO PHOTO ── */
   .hero-photo {
     position: absolute;
     right: 6%;
@@ -213,7 +214,8 @@
     width: clamp(280px, 30vw, 420px);
     opacity: 0.88;
     animation: fadeUp 1.2s ease 0.2s both;
-}
+    z-index: 2;
+  }
 
   .hero-photo img {
     width: 100%;
@@ -246,6 +248,11 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--muted);
+  }
+
+  /* ── MOBILE HERO PHOTO ── */
+  .hero-photo-mobile {
+    display: none;
   }
 
   /* ── SECTIONS ── */
@@ -763,20 +770,77 @@
     nav { padding: 1.2rem 1.5rem; }
     .nav-links { display: none; }
     section { padding: 5rem 1.5rem; }
-    #hero { padding: 7rem 1.5rem 4rem; flex-direction: column; }
-    .hero-photo { display: none; }
-    .hero-stats { position: static; margin-top: 2rem; justify-content: flex-start; }
+
+    #hero {
+      padding: 6rem 1.5rem 3rem;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-height: auto;
+    }
+
+    .hero-content {
+      max-width: 100%;
+    }
+
+    .hero-eyebrow {
+      justify-content: center;
+    }
+
+    .hero-cta {
+      justify-content: center;
+    }
+
+    /* Hide desktop photo on mobile */
+    .hero-photo {
+      display: none;
+    }
+
+    /* Show mobile photo */
+    .hero-photo-mobile {
+      display: block;
+      width: 220px;
+      height: 280px;
+      margin: 2rem auto 0;
+      position: relative;
+      z-index: 2;
+      border: 1px solid rgba(201,168,76,0.25);
+      overflow: hidden;
+    }
+
+    .hero-photo-mobile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      filter: grayscale(15%) contrast(1.05);
+    }
+
+    /* Stats below photo on mobile */
+    .hero-stats {
+      position: static;
+      margin-top: 2rem;
+      justify-content: center;
+      gap: 2rem;
+    }
+
     .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     .skills-grid { grid-template-columns: 1fr 1fr; }
     .projects-grid { grid-template-columns: 1fr; }
     .project-card.featured { grid-template-columns: 1fr; gap: 1.5rem; }
     .leadership-grid { grid-template-columns: 1fr 1fr; }
-    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
   }
 
   @media (max-width: 560px) {
     .skills-grid { grid-template-columns: 1fr; }
     .leadership-grid { grid-template-columns: 1fr; }
+    .hero-photo-mobile {
+      width: 180px;
+      height: 230px;
+    }
+    .hero-stats { gap: 1.5rem; }
   }
 </style>
 </head>
@@ -808,9 +872,17 @@
       <a href="#contact" class="btn-ghost">Get in Touch</a>
     </div>
   </div>
+
+  <!-- DESKTOP PHOTO -->
   <div class="hero-photo">
-    <img src="imageimage.png" alt="Chathuni De Alwis" onerror="this.parentElement.style.display='none'">
+    <img src="image.png" alt="Chathuni De Alwis" onerror="this.parentElement.style.display='none'">
   </div>
+
+  <!-- MOBILE PHOTO (shows only on small screens) -->
+  <div class="hero-photo-mobile">
+    <img src="image.png" alt="Chathuni De Alwis" onerror="this.parentElement.style.display='none'">
+  </div>
+
   <div class="hero-stats">
     <div class="stat">
       <span class="stat-num">76%</span>
@@ -884,7 +956,7 @@
         <div class="detail-icon">🔗</div>
         <div>
           <div class="detail-label">LinkedIn</div>
-          <div class="detail-val"><a href="https://www.linkedin.com/in/chathuni-de-alwis-61b1b5260/" target="_blank" style="color:var(--accent); text-decoration:none;">chathuni-dealwis</a></div>
+          <div class="detail-val"><a href="https://www.linkedin.com/in/chathuni-de-alwis-61b1b5260/" target="_blank" style="color:var(--accent); text-decoration:none;">chathuni-de-alwis</a></div>
         </div>
       </div>
     </div>
@@ -1137,7 +1209,7 @@
             <span class="contact-link-icon">🔗</span>
             <div class="contact-link-text">
               <span class="contact-link-label">LinkedIn</span>
-              <span class="contact-link-val">chathuni-dealwis-61b1b5260</span>
+              <span class="contact-link-val">chathuni-de-alwis-61b1b5260</span>
             </div>
           </a>
           <div class="contact-link" style="cursor:default;">
@@ -1198,7 +1270,7 @@
     nav.style.padding = window.scrollY > 50 ? '1rem 4rem' : '1.4rem 4rem';
   });
 
-async function handleSend() {
+  async function handleSend() {
     const btn = document.querySelector('.btn-send');
     const name = document.querySelectorAll('input')[0].value;
     const email = document.querySelectorAll('input')[1].value;
